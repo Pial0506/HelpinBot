@@ -11,6 +11,7 @@ class Base(AsyncAttrs, DeclarativeBase):
     pass
 
 
+#Таблица Пользователя
 class User(Base):
     __tablename__ = 'users'
 
@@ -18,6 +19,18 @@ class User(Base):
     tg_id = mapped_column(BigInteger)
     surname: Mapped[str] = mapped_column(String(20), nullable=True)
     phone_number: Mapped[str] = mapped_column(String(20), nullable=True)
+
+
+#Таблица Заявки
+class Application(Base):
+    __tablename__ = 'applications'
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    user: Mapped[int] = mapped_column(ForeignKey('users.id'))
+    office: Mapped[str] = mapped_column(String(3))
+    phone_number: Mapped[str] = mapped_column(ForeignKey('users.id'))
+    description: Mapped[str] = mapped_column(String(999))
+
 
 
 async def async_main():
